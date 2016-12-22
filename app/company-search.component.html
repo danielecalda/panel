@@ -1,0 +1,74 @@
+<div class="row">
+<div class="well">
+  <h4>Company Search</h4>
+  <label>Search : </label>
+  
+
+  <div>
+  <input #searchBox id="search-box" [(ngModel)]="filter" [ngModelOptions]="{debounce: 500}" (keyup)="listCompanies()"/>
+
+  
+    
+  </div>
+
+
+
+  
+</div>
+
+                
+
+<h3>Results</h3>
+<div  class="col-sm-12 well" *ngFor=" let company of companies | filterCompanies : filter">
+
+
+
+  
+    <div class="col-sm-3">
+          <p>
+
+              <label for=""> company name:</label> {{company.name}} </p>
+          <p>
+
+
+    <label> alphaname:</label> {{company.alphaname}} </p>
+    <p><label> email:</label> {{company.email}}</p>
+    
+    </div>
+    <div class="col-sm-6">
+    <ul>
+    <label>dids:</label>
+      <li>{{company.didNumber}}</li>
+      <li *ngFor="let did of company.dids">
+        {{did.number}}
+      </li>
+    </ul>
+    </div>
+    <div class="col-sm-3">
+    <p><button (click)="deleteCompany(company)">Delete</button></p>
+    <p><button (click)="goToDetail(company)">View Details</button></p>
+    <p><button>Control Panel</button><br></p>
+    <p><button >Chargebee</button></p>
+    </div>
+    </div>
+
+
+
+    
+
+
+
+
+
+    
+
+
+</div>
+
+
+
+
+
+
+
+
