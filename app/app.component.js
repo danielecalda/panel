@@ -10,28 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var login_service_1 = require('./login.service');
-var account_1 = require('./account');
 var router_1 = require('@angular/router');
 var AppComponent = (function () {
     function AppComponent(loginService, router) {
         this.loginService = loginService;
         this.router = router;
         this.title = 'GodPanel';
-        this.account = new account_1.Account();
     }
-    AppComponent.prototype.doLogin = function () {
-        if (this.loginService.login(this.account.username, this.account.password)) {
-            this.loginService.isAuthenticated = true;
-        }
+    AppComponent.prototype.doLogin = function (username, password) {
+        this.loginService.login(username, password);
     };
     AppComponent.prototype.doLogout = function () {
         this.loginService.isAuthenticated = false;
         window.location.href = '/';
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', account_1.Account)
-    ], AppComponent.prototype, "account", void 0);
     AppComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

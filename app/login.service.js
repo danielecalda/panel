@@ -11,67 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var shared_service_1 = require('./shared.service');
 var LoginService = (function () {
-    function LoginService(http, ss) {
+    function LoginService(http) {
         this.http = http;
-        this.ss = ss;
+        this.tokenUrl = "https://devapi.voverc.com/api/token";
+        this.tokenHeaders = new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+        this.authToken = null;
         this.isAuthenticated = false;
-        this.authToken = 'token';
-        this.accountUrl = 'app/account'; // URL to web api
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
-    LoginService.prototype.ngOnInit = function () {
-    };
-    LoginService.prototype.checkPassword = function (password, repeatedPassword) {
-        if (password === repeatedPassword) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
-    LoginService.prototype.loginSimple = function (username, password) {
-        if (username === 'pippo' && password === 'voverc') {
-            console.log('yes');
-            return true;
-        }
-        else {
-            alert('bad username or password');
-            return false;
-        }
-    };
-    /*
-    login(account: Account){
-        var postData = 'grant_type=password&username=' + account.username + '&password=' + account.password;
-          this.http.post(apiUrl + 'api/token', postData, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-            .subscribe(
-              data => {
-                this.ss.authToken = data.access_token;
-                this.ss.isAuthenticated = true;
-                },
-              error => {
-                  alert('bad username or password');
-                });
-    }
-    */
     LoginService.prototype.login = function (username, password) {
-        if (username === 'pippo' && password === 'voverc') {
-            console.log('log in effettuato');
-            return true;
-        }
-        else {
-            console.log('bad username or password');
-            alert('bad username or password');
-            return false;
-        }
-    };
-    LoginService.prototype.handleError = function (error) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+        var _this = this;
+        this.http
+            .post(this.tokenUrl, "grant_type=password&username=" + username + "&password=" + password, { headers: this.tokenHeaders })
+            .toPromise()
+            .then(function (response) {
+            _this.isAuthenticated = true;
+            _this.authToken = response.json().access_token;
+        });
     };
     LoginService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, shared_service_1.SharedService])
+        __metadata('design:paramtypes', [http_1.Http])
     ], LoginService);
     return LoginService;
 }());

@@ -17,8 +17,9 @@ var HttpClient = (function () {
         this.loginService = loginService;
     }
     HttpClient.prototype.createAuthorizationHeader = function (headers) {
-        headers.append('Authorization', 'Bearer ' +
+        headers.append('Authorization', 'bearer ' +
             this.loginService.authToken);
+        headers.append('Content-Type', 'application/json');
     };
     HttpClient.prototype.get = function (url) {
         var headers = new http_1.Headers();

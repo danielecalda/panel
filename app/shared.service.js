@@ -13,6 +13,8 @@ var SharedService = (function () {
     function SharedService() {
         this.companyUrl = 'app/company';
         this.deviceUrl = 'app/device';
+        this.apiUrl = 'https://devapi.voverc.com/';
+        this.loginUrl = 'https://devapi.voverc.com/api/token';
     }
     SharedService = __decorate([
         core_1.Injectable(), 

@@ -4,7 +4,6 @@ var billing_details_1 = require('./billing-details');
 var user_1 = require('./user');
 var company_1 = require('./company');
 var device_1 = require('./device');
-var account_1 = require('./account');
 var did_1 = require('./did');
 var InMemoryDataService = (function () {
     function InMemoryDataService() {
@@ -31,7 +30,6 @@ var InMemoryDataService = (function () {
         ];
         var device = [new device_1.Device(300, 'pc', 'dpro1', 'pippo', 'dsd', 'dsd'), new device_1.Device(301, 'pc', 'dpro2', 'pluto'), new device_1.Device(302, 'mop', 'dpro3', 'pippo'), new device_1.Device(303, 'pc', 'dpro4', 'pippo')];
         var user = [];
-        var account = new account_1.Account('pippo', 'voverc');
         return { company: company, device: device, user: user };
     };
     return InMemoryDataService;

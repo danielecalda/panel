@@ -9,8 +9,9 @@ export class HttpClient {
   constructor(private http: Http, private loginService: LoginService) {}
 
   createAuthorizationHeader(headers: Headers) {
-    headers.append('Authorization', 'Bearer ' +
+    headers.append('Authorization', 'bearer ' +
       this.loginService.authToken); 
+    headers.append('Content-Type', 'application/json'); 
   }
 
   get(url) {

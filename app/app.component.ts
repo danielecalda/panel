@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoginService}  from './login.service';
-import { Account }  from './account';
 import { Router }  from '@angular/router';
 import { Location }                 from '@angular/common';
 import { SharedService }    from './shared.service';
@@ -20,8 +19,7 @@ moduleId: module.id,
 export class AppComponent {
   	title = 'GodPanel';
 
-    @Input()
-    account: Account = new Account();
+    
 
     
 
@@ -35,14 +33,13 @@ export class AppComponent {
 
 
 
-  	doLogin(){
+  	doLogin(username, password){
       
-     if(this.loginService.login(this.account.username, this.account.password)){
+     this.loginService.login(username, password);
 
-        this.loginService.isAuthenticated = true;
 
         
-      }
+      
      }
 
     doLogout(){

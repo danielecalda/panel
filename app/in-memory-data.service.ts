@@ -50,7 +50,6 @@ export class InMemoryDataService implements InMemoryDbService {
 
    let user = [];
 
-    let account = new Account('pippo', 'voverc');
 
     return {company, device, user};
 

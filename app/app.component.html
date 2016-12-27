@@ -54,16 +54,16 @@
           <form role="form">
             <div class="form-group">
               <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-              <input #usrname type="text" class="form-control"  placeholder="Enter email" [(ngModel)]="account.username" name="username" >
+              <input #usrname type="text" class="form-control"  placeholder="Enter email"   >
             </div>
             <div class="form-group">
               <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-              <input #psw type="password" class="form-control"  placeholder="Enter password" [(ngModel)]="account.password" name="password">
+              <input #psw type="password" class="form-control"  placeholder="Enter password"  >
             </div>
             <div class="checkbox">
               <label><input type="checkbox" value="" checked>Remember me</label>
             </div>
-            <button type="submit" class="btn btn-default btn-success btn-block" data-dismiss="modal" (click)="doLogin()"><span class="glyphicon glyphicon-off"></span> Login</button>
+            <button type="submit" class="btn btn-default btn-success btn-block" data-dismiss="modal" (click)="doLogin(usrname.value, psw.value)"><span class="glyphicon glyphicon-off"></span> Login</button>
           </form>
         </div>
         <div class="modal-footer">
