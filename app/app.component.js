@@ -9,19 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var login_service_1 = require('./login.service');
 var router_1 = require('@angular/router');
+var auth_service_1 = require('./auth.service');
 var AppComponent = (function () {
-    function AppComponent(loginService, router) {
-        this.loginService = loginService;
+    function AppComponent(authService, router) {
+        this.authService = authService;
         this.router = router;
         this.title = 'GodPanel';
     }
     AppComponent.prototype.doLogin = function (username, password) {
-        this.loginService.login(username, password);
+        this.authService.getAuthToken(username, password);
     };
     AppComponent.prototype.doLogout = function () {
-        this.loginService.isAuthenticated = false;
+        this.authService.isAuthenticated = false;
         window.location.href = '/';
     };
     AppComponent = __decorate([
@@ -31,7 +31,7 @@ var AppComponent = (function () {
             templateUrl: 'app.component.html',
             styleUrls: ['app.component.css']
         }), 
-        __metadata('design:paramtypes', [login_service_1.LoginService, router_1.Router])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, router_1.Router])
     ], AppComponent);
     return AppComponent;
 }());

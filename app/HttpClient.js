@@ -10,15 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var login_service_1 = require('./login.service');
 var HttpClient = (function () {
-    function HttpClient(http, loginService) {
+    function HttpClient(http) {
         this.http = http;
-        this.loginService = loginService;
     }
     HttpClient.prototype.createAuthorizationHeader = function (headers) {
-        headers.append('Authorization', 'bearer ' +
-            this.loginService.authToken);
         headers.append('Content-Type', 'application/json');
     };
     HttpClient.prototype.get = function (url) {
@@ -55,7 +51,7 @@ var HttpClient = (function () {
     };
     HttpClient = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, login_service_1.LoginService])
+        __metadata('design:paramtypes', [http_1.Http])
     ], HttpClient);
     return HttpClient;
 }());

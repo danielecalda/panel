@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
+var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
-var app_routing_module_1 = require('./app-routing.module');
 // Imports for loading & configuring the in-memory web api
 var angular_in_memory_web_api_1 = require('angular-in-memory-web-api');
 var in_memory_data_service_1 = require('./in-memory-data.service');
@@ -22,8 +22,9 @@ var company_search_component_1 = require('./company-search.component');
 var company_detail_component_1 = require('./company-detail.component');
 var company_service_1 = require('./company.service');
 var device_service_1 = require('./device.service');
-var login_service_1 = require('./login.service');
 var user_service_1 = require('./user.service');
+var auth_service_1 = require('./auth.service');
+var account_service_1 = require("./account.service");
 var new_company_component_1 = require('./new-company.component');
 var companies_pipe_1 = require('./companies.pipe');
 var users_pipe_1 = require('./users.pipe');
@@ -37,7 +38,12 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
-                app_routing_module_1.AppRoutingModule,
+                router_1.RouterModule.forRoot([
+                    { path: '', redirectTo: '/app', pathMatch: 'full' },
+                    { path: 'search', component: company_search_component_1.CompanySearchComponent },
+                    { path: 'detail/:id', component: company_detail_component_1.CompanyDetailComponent },
+                    { path: 'new', component: new_company_component_1.NewCompanyComponent }
+                ], { useHash: true }),
                 http_1.HttpModule,
                 forms_1.FormsModule,
                 angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService),
@@ -51,8 +57,8 @@ var AppModule = (function () {
                 users_pipe_1.FilterUsersPipe,
                 devices_pipe_1.FilterDevicesPipe
             ],
-            providers: [company_service_1.CompanyService, device_service_1.DeviceService, login_service_1.LoginService, user_service_1.UserService, shared_service_1.SharedService, httpClient_1.HttpClient],
-            bootstrap: [app_component_1.AppComponent]
+            bootstrap: [app_component_1.AppComponent],
+            providers: [auth_service_1.AuthService, account_service_1.AccountService, company_service_1.CompanyService, device_service_1.DeviceService, user_service_1.UserService, shared_service_1.SharedService, httpClient_1.HttpClient]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);

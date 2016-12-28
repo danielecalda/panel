@@ -11,8 +11,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a *ngIf="!loginService.isAuthenticated" data-toggle="modal" href="#myModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      <li><a *ngIf="loginService.isAuthenticated"  href="doLogout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a *ngIf="!authService.isAuthenticated" data-toggle="modal" href="#myModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a *ngIf="authService.isAuthenticated"  href="doLogout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
 
       </ul>
     </div>
@@ -21,7 +21,7 @@
 
 <div class="container-fluid text-center" >
   <div class="row content">
-    <div  *ngIf="loginService.isAuthenticated" class="col-sm-2 sidenav" >
+    <div  *ngIf="authService.isAuthenticated" class="col-sm-2 sidenav" >
     <nav>
       <span ><a  routerLink="/search" routerLinkActive="active">Company Search</a></span>
       <span ><a   routerLink="/new" routerLinkActive="active">New Company</a></span>
@@ -30,7 +30,7 @@
 
 
     </div>
-    <div *ngIf="loginService.isAuthenticated"  class="col-sm-10 text-left">
+    <div *ngIf="authService.isAuthenticated"  class="col-sm-10 text-left">
 
       <router-outlet></router-outlet>
 

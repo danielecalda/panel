@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoginService}  from './login.service';
 import { Router }  from '@angular/router';
 import { Location }                 from '@angular/common';
 import { SharedService }    from './shared.service';
 
-
+import { AuthService }   from './auth.service';
 
 
 
@@ -27,7 +26,7 @@ export class AppComponent {
 
 
   	constructor(
-  	private loginService: LoginService,
+  	private authService: AuthService,
     private router: Router)
   	{}
 
@@ -35,7 +34,7 @@ export class AppComponent {
 
   	doLogin(username, password){
       
-     this.loginService.login(username, password);
+     this.authService.getAuthToken(username, password);
 
 
         
@@ -43,7 +42,7 @@ export class AppComponent {
      }
 
     doLogout(){
-        this.loginService.isAuthenticated = false;
+        this.authService.isAuthenticated = false;
         window.location.href = '/';
 
     }

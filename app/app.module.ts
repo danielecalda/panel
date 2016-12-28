@@ -1,6 +1,8 @@
 import { NgModule, Provider}      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
+import { RouterModule}     from '@angular/router'
+
 import {Http, HttpModule,  Headers, RequestOptions, RequestOptionsArgs, Response, RequestMethod, Request, Connection, XHRBackend,  ConnectionBackend} from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,8 +22,10 @@ import { CompanySearchComponent}  from './company-search.component';
 import { CompanyDetailComponent }  from './company-detail.component';
 import { CompanyService }          from './company.service';
 import { DeviceService }          from './device.service';
-import { LoginService }          from './login.service';
 import { UserService }          from './user.service';
+import { AuthService } from './auth.service'
+import { AccountService } from "./account.service";
+
 import { NewCompanyComponent }     from './new-company.component';
 import { FilterCompaniesPipe }  from './companies.pipe';
 import { FilterUsersPipe }  from './users.pipe';
@@ -33,7 +37,14 @@ import { HttpClient }   from './httpClient';
 @NgModule({
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    RouterModule.forRoot([
+            { path: '', redirectTo: '/app', pathMatch: 'full' },
+
+  { path: 'search',  component: CompanySearchComponent },
+  { path: 'detail/:id', component: CompanyDetailComponent },
+  { path: 'new', component: NewCompanyComponent }
+        ], {useHash: true})
+    ,
     HttpModule,
     FormsModule,
     InMemoryWebApiModule.forRoot(InMemoryDataService),
@@ -47,8 +58,8 @@ import { HttpClient }   from './httpClient';
     FilterUsersPipe,
     FilterDevicesPipe
   ],
-  providers: [CompanyService, DeviceService, LoginService, UserService, SharedService, HttpClient ],
+  bootstrap: [ AppComponent ],
+  providers: [AuthService, AccountService, CompanyService, DeviceService,  UserService, SharedService, HttpClient ]
 
-  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

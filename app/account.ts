@@ -1,12 +1,21 @@
+/**
+ * Created by manuel on 14/11/2016.
+ */
 export class Account{
-	id: number;
-	username: string;
-	password: string;
+    username: string;
+    password: string;
+    installId: string;
+    token: string;
 
+    constructor(){}
 
-	constructor(id?: number,  username?: string, password?: string){
-		this.id = id;
-		this.username = username;
-		this.password = password;
-	}
+    setAccount(user?: string, pass?: string, id?: string){
+        this.username = user;
+        this.password = pass;
+        this.installId = id;
+    }
+
+    setToken(token: string){
+        this.token = token;
+    }
 }

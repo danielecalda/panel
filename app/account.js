@@ -1,10 +1,18 @@
 "use strict";
+/**
+ * Created by manuel on 14/11/2016.
+ */
 var Account = (function () {
-    function Account(id, username, password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    function Account() {
     }
+    Account.prototype.setAccount = function (user, pass, id) {
+        this.username = user;
+        this.password = pass;
+        this.installId = id;
+    };
+    Account.prototype.setToken = function (token) {
+        this.token = token;
+    };
     return Account;
 }());
 exports.Account = Account;
