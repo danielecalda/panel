@@ -1,0 +1,204 @@
+/**** Dashboard Page *****/
+.login-container {
+    background-image: url(../images/pattern-tools.png);
+}
+.btn-primary {
+    background-color: #f79724;
+    border-color: #f79724;
+    &:focus {
+        background-color: #de8418;
+        border-color: #de8418;
+    }
+    &:hover {
+        background-color: #de8418;
+        border-color: #de8418;
+    }
+}
+.btn-primary.focus {
+    background-color: #de8418;
+    border-color: #de8418;
+}
+.page-content {
+    background-image: url(../images/pattern-tools.png);
+}
+.dashboard-content {
+    position: relative;
+    &:after {
+        display: block;
+        clear: both;
+        content: '';
+    }
+}
+.three-column {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -10px 20px;
+}
+.dash-box {
+    overflow: hidden;
+    padding: 25px 15px;
+    position: relative;
+    .icon-holder {
+        border-radius: 50%;
+        color: #ededed;
+        float: left;
+        font-size: 40px;
+        height: 80px;
+        line-height: 73px;
+        text-align: center;
+        width: 80px;
+        background: rgba(0, 0, 0, .5);
+    }
+    .dash-content {
+        color: #ededed;
+        float: right;
+    }
+}
+.dash-content {
+    strong {
+        display: block;
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 60px;
+        text-align: center;
+    }
+    h2 {
+        font-size: 18px;
+        line-height: 20px;
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+    }
+}
+.dash-box.indigo {
+    background: #9b59b6;
+}
+.dash-box.blue {
+    background: #3498db;
+}
+.dash-box.green {
+    background: #2ecc71;
+}
+.map-holder {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -10px 15px;
+}
+.map-frame {
+    position: relative;
+    background: #fff;
+    img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+}
+.video-list-1 {
+    background: #eee none repeat scroll 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    height: auto;
+    margin: 0 0 20px;
+    overflow: hidden;
+    padding: 10px;
+    width: 100%;
+    .video-lst {
+        display: block;
+        float: left;
+        height: auto;
+        position: relative;
+        width: 30%;
+    }
+    img {
+        display: block;
+        height: auto;
+        width: 100%;
+    }
+    .video-list-content {
+        display: block;
+        float: left;
+        margin: 0;
+        padding: 0 0 0 20px;
+        position: relative;
+        width: 70%;
+        h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 1px;
+            text-transform: capitalize;
+        }
+        p {
+            font-size: 13px;
+            margin: 0;
+            padding: 0 10px 0 0;
+        }
+    }
+}
+.mymodelstyle {
+    .modal-dialog {
+        margin: 30px auto;
+        width: 370px;
+    }
+    .modal-header {
+        .close {
+            background: #f79724 none repeat scroll 0 0;
+            border-radius: 0 0 0 17px;
+            color: #fff;
+            height: 27px;
+            margin-top: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 27px;
+        }
+        padding: 6px 11px;
+    }
+    .modal-content {
+        .modal-header {
+            >img {
+                display: block;
+                height: auto;
+                margin: 0 auto;
+                max-width: 30%;
+            }
+        }
+    }
+    .modal-body {
+        p {
+            margin: 0 0 20px 0;
+            font-size: 15px;
+        }
+    }
+}
+.btn-payment {
+    display: block;
+    text-align: center;
+    .btn.btn-md.btn-ok {
+        background: none repeat scroll 0 0;
+        color: #000;
+        text-transform: capitalize;
+        width: 115px;
+        border: 2px solid #f79724;
+        transition: all 0.5s ease 0s;
+        margin: 0 20px 0 0;
+        &:hover {
+            background: #f79724 none repeat scroll 0 0;
+            color: #fff;
+            border: 2px solid #f79724;
+        }
+    }
+    .btn.btn-md.btn-cancel {
+        background: #f79724 none repeat scroll 0 0;
+        color: #fff;
+        text-transform: capitalize;
+        width: 115px;
+        border: 2px solid #f79724;
+        transition: all 0.5s ease 0s;
+        &:hover {
+            background: none;
+            color: #000;
+            border: 2px solid #f79724;
+        }
+    }
+}

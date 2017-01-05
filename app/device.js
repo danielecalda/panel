@@ -1,8 +1,9 @@
 "use strict";
 var Device = (function () {
-    function Device(id, type, name, username, codecOrder3G, codecOrder, dtmfAll, dtmfOrder, honorFirstCodec, honorFirstCodec3G) {
-        this.id = id;
+    function Device(deviceId, type, creationDate, name, username, codecOrder3G, codecOrder, dtmfAll, dtmfOrder, honorFirstCodec, honorFirstCodec3G) {
+        this.deviceId = deviceId;
         this.type = type;
+        this.creationDate = creationDate;
         this.name = name;
         this.username = username;
         this.date = new Date();

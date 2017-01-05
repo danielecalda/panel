@@ -5,14 +5,14 @@ import { RouterModule}     from '@angular/router'
 
 import {Http, HttpModule,  Headers, RequestOptions, RequestOptionsArgs, Response, RequestMethod, Request, Connection, XHRBackend,  ConnectionBackend} from '@angular/http';
 
-import { AppRoutingModule } from './app-routing.module';
 
 
 
 
-// Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+
+
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+
 
 import './rxjs-extensions';
 
@@ -20,17 +20,20 @@ import './rxjs-extensions';
 import { AppComponent }         from './app.component';
 import { CompanySearchComponent}  from './company-search.component';
 import { CompanyDetailComponent }  from './company-detail.component';
-import { CompanyService }          from './company.service';
-import { DeviceService }          from './device.service';
-import { UserService }          from './user.service';
-import { AuthService } from './auth.service'
-import { AccountService } from "./account.service";
+import { CompanyService }          from './services/company.service';
+import { DeviceService }          from './services/device.service';
+import { UserService }          from './services/user.service';
+import { AuthService } from './services/auth.service'
+import { AccountService } from "./services/account.service";
+import { DidService}  from './services/did.service';
+import { ErrorService }  from './services/error.service';
+
 
 import { NewCompanyComponent }     from './new-company.component';
 import { FilterCompaniesPipe }  from './companies.pipe';
 import { FilterUsersPipe }  from './users.pipe';
 import { FilterDevicesPipe }  from './devices.pipe';
-import { SharedService }  from './shared.service';
+import { SharedService }  from './services/shared.service';
 import { HttpClient }   from './httpClient';
 
 
@@ -38,7 +41,7 @@ import { HttpClient }   from './httpClient';
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-            { path: '', redirectTo: '/app', pathMatch: 'full' },
+            { path: '', redirectTo: '/', pathMatch: 'full' },
 
   { path: 'search',  component: CompanySearchComponent },
   { path: 'detail/:id', component: CompanyDetailComponent },
@@ -46,8 +49,7 @@ import { HttpClient }   from './httpClient';
         ], {useHash: true})
     ,
     HttpModule,
-    FormsModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    FormsModule
   ],
   declarations: [
     AppComponent,
@@ -59,7 +61,7 @@ import { HttpClient }   from './httpClient';
     FilterDevicesPipe
   ],
   bootstrap: [ AppComponent ],
-  providers: [AuthService, AccountService, CompanyService, DeviceService,  UserService, SharedService, HttpClient ]
+  providers: [AuthService, AccountService, CompanyService, DeviceService,  UserService, SharedService, HttpClient, DidService, CookieService, ErrorService ]
 
 })
 export class AppModule { }

@@ -1,97 +1,45 @@
-<div class="well-div">
-<div class="col-xs-12">
-<div class="well">
-
-
-  <div class="header">
-    <h3>Company Details</h3>
-
-  </div>
-
-<div class="form-group row">
-  <label for="" class="col-xs-1 col-form-label">Company Name:</label>
-  <div class="col-xs-5">
-    <span *ngIf="creationCompleted">{{company.name}}</span>
-    <input required  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="name" [(ngModel)]="company.name" />
-  </div>
-</div>
-<div class="form-group row">
-
-  <label for="" class="col-xs-1 col-form-label">Address:</label>
-  <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{billing.address}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="address" [(ngModel)]="billing.address" />
-  </div>
-  <label for="" class="col-xs-1 col-form-label">Province:</label>
-  <div class="col-xs-2">
-   <span *ngIf="creationCompleted">{{billing.city}}</span>
-    <select *ngIf="!creationCompleted" class="form-control" type="text" placeholder="city" [(ngModel)]="billing.city" >
+<form (ngSubmit)="add()">
+	<div class="well">
+	<div class="header">
+    	<h3>Company Details</h3>
+	</div>
+    <div class="form-group row">
+  		<label for="" class="col-xs-1 col-form-label">Company Name:</label>
+  			<div class="col-xs-5">
+    			<input required  class="form-control" type="text" placeholder="name" [(ngModel)]="onBoarding.company_name" name="company_name" />
+    		</div>
+	</div>
+	<div class="form-group row">
+	<label for="" class="col-xs-1 col-form-label">Address:</label>
+  	<div class="col-xs-3">
+    		<input  required  class="form-control" type="text" placeholder="address" [(ngModel)]="onBoarding.address" name="address" />
+  	</div>
+  	<label for="" class="col-xs-1 col-form-label">Province:</label>
+  	<div class="col-xs-2">
+    	<select required  class="form-control" type="text" placeholder="city" [(ngModel)]="onBoarding.city" name="city">
           <option [value]="city" *ngFor="let city of cities" >{{city}}</option>
-    </select>
-  </div>
-  <label for="" class="col-xs-1 col-form-label">ZipCode:</label>
-  <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{billing.zipCode}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="zip code" [(ngModel)]="billing.zipCode" />
-  </div>
-</div>
-<div class="form-group row">
+    	</select>
+  	</div>
+  	<label for="" class="col-xs-1 col-form-label">ZipCode:</label>
+  		<div class="col-xs-2">
+    	<input  required  class="form-control" type="text" placeholder="zip code" [(ngModel)]="onBoarding.zip" name="zip" />
+  	</div>
+	</div>
+	<div class="form-group row">
 
-  <label for="" class="col-xs-1 col-form-label">State:</label>
-  <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{billing.state}}</span>
-    <select *ngIf="!creationCompleted" class="form-control" type="text"  [(ngModel)]="billing.state" >
-          <option [value]="state" *ngFor="let state of states" >{{state}}</option>
-    </select>
-  </div>
-  <label for="" class="col-xs-1 col-form-label">Vat ID:</label>
-  <div class="col-xs-2">
-    <span *ngIf="creationCompleted"></span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="vat" />
-  </div>
-</div>
-</div>
-
-
-
-
-</div>
-
-<div class="col-xs-12">
-  <div class="well">
-  <div class="header">
-    <h3>Main Did detail</h3>
-
-  </div>
-
-<div class="form-group row">
-  <label for="" class="col-xs-1 col-form-label">Did:</label>
-  <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{company.didNumber}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text"  placeholder="did"  [(ngModel)]="company.didNumber"/>
-  </div>
-</div>
-<div class="form-group row">
-  <label for="" class="col-xs-1 col-form-label">Prefix:</label>
-  <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{prefix}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text"  placeholder="Prefix" [(ngModel)]="prefix"/>
-  </div>
-  <label for="" class="col-xs-2 col-form-label">CountryCode:</label>
-  <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{countryCode}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text"  placeholder="country code" [(ngModel)]="countryCode" />
-  </div>
-</div>
-</div>
-
-
-
-
-</div>
-
-<div class="col-xs-12">
-  <div class="well">
+  	<label for="" class="col-xs-1 col-form-label">State:</label>
+  		<div class="col-xs-2">
+    		<select required class="form-control" type="text"  [(ngModel)]="onBoarding.state" name="state" >
+          		<option [value]="state" *ngFor="let state of states" >{{state}}</option>
+    		</select>
+  		</div>
+  	<label for="" class="col-xs-1 col-form-label">Tax ID:</label>
+  		<div class="col-xs-2">
+    		<input required   class="form-control" type="text" placeholder="tax id" [(ngModel)]="onBoarding.tax_id" name="tax_id" />
+  		</div>
+	</div>
+	</div>
+	<div class="well">
   <div class="header">
     <h3>User Administration Details</h3>
 
@@ -100,70 +48,57 @@
 <div class="form-group row">
   <label for="" class="col-xs-1 col-form-label">FirstName:</label>
   <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{admin.firstName}}</span>
-    <input *ngIf="!creationCompleted" class="form-control" type="text"  placeholder="FirstName" [(ngModel)]="admin.firstName" />
+    <input required  class="form-control" type="text"  placeholder="FirstName" [(ngModel)]="onBoarding.first_name" name="first_name" />
   </div>
   <label for="" class="col-xs-1 col-form-label">LastName:</label>
   <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{admin.lastName}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text"  placeholder="LastName" [(ngModel)]="admin.lastName" />
+    <input required  class="form-control" type="text"  placeholder="LastName" [(ngModel)]="onBoarding.last_name" name="last_name" />
   </div>
 </div>
 <div class="form-group row">
   <label for="" class="col-xs-1 col-form-label">Email:</label>
   <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{admin.email}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="email" value="" placeholder="email" [(ngModel)]="admin.email" [(ngModel)]="company.email"/>
+    <input  required  class="form-control" type="string"  placeholder="email" [(ngModel)]="onBoarding.email" name="email" />
   </div>
   <label for="" class="col-xs-2 col-form-label">PhoneNumber:</label>
   <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{admin.phoneNumber}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="phone" [(ngModel)]="admin.phoneNumber"/>
+    <input  required  class="form-control" type="text" placeholder="mobile number" [(ngModel)]="onBoarding.mobile_number" name="mobile_number" />
   </div>
 </div>
 <div class="form-group row">
   <label for="" class="col-xs-1 col-form-label">Password:</label>
   <div class="col-xs-2">
-    <span *ngIf="creationCompleted">{{admin.password}}</span>
-    <input required *ngIf="!creationCompleted" class="form-control" type="password" value="" placeholder="password"  [(ngModel)]="admin.password" />
+    <input required  class="form-control" type="password" value="" placeholder="password"  [(ngModel)]="onBoarding.password" name="password" />
   </div>
-  <label *ngIf="!creationCompleted" for="" class="col-xs-2 col-form-label">RepeatPassword:</label>
+  <label  for="" class="col-xs-2 col-form-label">RepeatPassword:</label>
   <div class="col-xs-2">
-    <input required *ngIf="!creationCompleted"  class="form-control" type="password" value="" placeholder="repeteadPwd" [(ngModel)]="repeatedPwd" />
+    <input required   class="form-control" type="password" value="" placeholder="repeteadPwd" [(ngModel)]="repeatedPwd" name="RepeatPassword" />
   </div>
-  <button *ngIf="!creationCompleted" type="button" name="button" (click)="generate()">Generate</button>
+  <button  type="button" name="button" (click)="generate()">Generate</button>
 </div>
 <span>{{msg}}</span>
 </div>
 
-
-
-</div>
-
-
-
-<div class="col-xs-12">
-  <div class="well">
+<div class="well">
   <div class="header">
     <h3>Additional Info</h3>
 
+  </div>
+  <label for="" class="col-xs-1 col-form-label">Prefix:</label>
+  <div class="col-xs-2">
+    <input   class="form-control" type="text"  placeholder="Prefix" [(ngModel)]="prefix" name="prefix" />
   </div>
 
 <div class="form-group row">
   <label for="" class="col-xs-1 col-form-label">Initial Balance:</label>
   <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{company.credit}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="number" placeholder="credit" [(ngModel)]="company.credit"/>
+    <input   class="form-control" type="number" placeholder="balance" [(ngModel)]="onBoarding.balance" name="balance" />
   </div>
-  <label for="" class="col-xs-1 col-form-label">Coupon Code:</label>
-  <div class="col-xs-3">
-    <span *ngIf="creationCompleted">{{company.couponCode}}</span>
-    <input  *ngIf="!creationCompleted" class="form-control" type="text" placeholder="coupon code" [(ngModel)]="company.couponCode"/>
-  </div>
+  
   <label for="" class="col-xs-1 col-form-label">Trial Days:</label>
   <div class="col-xs-3">
-      <span *ngIf="creationCompleted">{{company.trialDays}}</span>
-      <input  *ngIf="!creationCompleted" class="form-control" type="number" placeholder="trial days" [(ngModel)]="company.trialDays"/>
+      
+      <input class="form-control" type="number" placeholder="trial days" [(ngModel)]="onBoarding.trial_days" name="trial_days" />
   </div>
 
 
@@ -171,11 +106,8 @@
 </div>
 
 </div>
+  	<button type="submit">Add</button>
+</form>
 
-</div>
 
-<button *ngIf="creationCompleted" type="button" name="button" (click)="goToSearch()">Go To Search</button>
 
-<button *ngIf="!creationCompleted" type="button" name="button" (click)="add()">Add</button>
-
-</div>

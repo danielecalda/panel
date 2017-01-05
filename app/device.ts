@@ -1,8 +1,9 @@
 
 
 export class Device{
-	  id: number;
+	  deviceId: number;
     type: string;
+    creationDate: Date;
     name: string;
     username: string;
     date: Date;
@@ -14,9 +15,10 @@ export class Device{
     honorFirstCodec3G: string;
 
 
-    constructor(id?: number,  type?: string, name?: string, username?: string,  codecOrder3G?: string, codecOrder?: string, dtmfAll?: boolean, dtmfOrder?: string,  honorFirstCodec?: boolean, honorFirstCodec3G?: string){
-    	  this.id = id;
+    constructor(deviceId?: number,  type?: string, creationDate?: Date, name?: string, username?: string,  codecOrder3G?: string, codecOrder?: string, dtmfAll?: boolean, dtmfOrder?: string,  honorFirstCodec?: boolean, honorFirstCodec3G?: string){
+    	  this.deviceId = deviceId;
           this.type = type;
+          this.creationDate = creationDate;
           this.name = name;
           this.username = username;
           this.date = new Date();

@@ -10,14 +10,18 @@
               <button *ngIf="editMode" (click)="triggerEditMode()">Edit</button>
               <button [hidden]="editMode" (click)="save()">Done</button>
           </div>
+          
           <div>
-              <label>Billing Details:</label><br>
+              <label>Address:</label><br>
                 <p>{{company.name}}<br>
-                  {{company.billing.address}}<br>
-                    {{company.billing.zipCode}} {{company.billing.city}}
+                  {{company.address.street}} {{company.address.zip}} <br>
+                     {{company.address.city}} {{company.address.province}}
                 </p>
           </div>
+          
+          
   </div>
+  
   <div class="well">
   
 
@@ -25,40 +29,32 @@
     <div   class="form">
     <label>Dids :</label >
         <ul>
-            <li *ngIf="company.didNumber">
-              <span *ngIf="editMode">{{company.didNumber}}</span>
+            
+            <li *ngFor="let did of dids; let i=index">
+                <span *ngIf="editMode">{{did.number}}</span>
 
-              <input #didText type="text" [(ngModel)]="company.didNumber"  *ngIf="!editMode"  placeholder="did" />
-              <button *ngIf="editMode" (click)="triggerEditMode(i)">Edit</button>
-                <button [hidden]="editMode" (click)="save()">Done</button>
-                <button *ngIf="editMode" (click)="deleteMainDid()">Delete</button>
-            </li>
-            <li *ngFor="let did of company.dids; let i=index">
-                <span *ngIf="editMode">{{company.dids[i].number}}</span>
-
-                <input #didText type="text" [(ngModel)]="company.dids[i].number"  *ngIf="!editMode"  placeholder="did" />
+                <input #didText type="text" [(ngModel)]="did.number"  *ngIf="!editMode"  placeholder="did" />
                 <button *ngIf="editMode" (click)="triggerEditMode(i)">Edit</button>
-                <button [hidden]="editMode" (click)="save()">Done</button>
+                <button [hidden]="editMode" (click)="saveDid(did)">Done</button>
                 <button *ngIf="editMode" (click)="deleteDid(i)">Delete</button>
             </li>
         </ul>
     </div>
   </div>
+  
   <div class="well">
-    <p>
-        <label >Subscription type:  </label>
-        <span>{{company.subscription}}</span>
-    </p>
-    <p>
-    <label>Status:</label>
-    <span *ngIf="company.locked">locked</span>
-    <span *ngIf="!company.locked">unlocked</span>
-    </p>
-      
+    
+    
       <p>
-          <label >Credit:</label>
-          <span>{{company.credit}} €</span>
+          <label>Locked:</label>&nbsp;&nbsp;&nbsp;
+          <span>{{company.locked}} </span>
         </p>
+
+        <p>
+          <label>Balance:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span>{{company.balance}}</span>
+        </p>
+     
     </div>
 
     
@@ -82,10 +78,10 @@
       <div *ngIf="users.length > 0">
       <label>Users:</label>
           <div class="" *ngFor="let user of users | filterUsers: filter; let i = index">
-            <span>{{user.userName}}  {{user.email}} {{user.password}}</span>
+            <span>{{user.firstName}} {{user.lastName}} {{user.email}} </span>
             <button data-toggle="modal" data-target="#myModalPwd" (click)="setCurrentUser(user)">Reset Pwd</button>
             <button (click)="searchDevicesForUsername(user)">View Devices</button>
-            <button (click)="deleteUser(i)">Delete</button>
+            <button (click)="deleteUser(user)">Delete</button>
 
           </div>
           </div>
@@ -94,6 +90,9 @@
 
           
     </div>
+
+    
+    
 
   <div class="well" *ngIf="devices">
 
@@ -119,7 +118,7 @@
     <thead>
       <tr>
         <th>type</th>
-        <th>name</th>
+        
       </tr>
     </thead>
 
@@ -127,14 +126,13 @@
       <tr >
 
           <td>{{device.type}}</td>
-          <td>{{device.name}}</td>
+          
           <button data-toggle="modal" data-target="#modalDeviceDetail" (click)="setCurrentDevice(i)" type="button" name="button">details</button>
       </tr>
 
     </tbody>
   </table>
 </div>
-
 
 
 </div>
@@ -160,12 +158,9 @@
 
 
 
-
-<!-- Modal for addCredit-->
  <div class="modal fade" id="myModalCredit" role="dialog">
    <div class="modal-dialog">
 
-     <!-- Modal content-->
      <div class="modal-content">
        <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -185,11 +180,9 @@
  </div>
 
 
- <!-- Modal for addDid -->
   <div class="modal fade" id="myModalDid" role="dialog">
     <div class="modal-dialog">
 
-      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -208,12 +201,11 @@
     </div>
   </div>
 
+<!--
 
-  <!-- Modal for Password -->
    <div class="modal fade" id="myModalPwd" role="dialog">
      <div class="modal-dialog">
 
-       <!-- Modal content-->
        <div class="modal-content">
          <div class="modal-header">
            <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -238,11 +230,9 @@
    </div>
 
 
-   <!-- Modal for Add device -->
     <div class="modal fade" id="myModalDevice" role="dialog">
       <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -260,12 +250,10 @@
 
       </div>
     </div>
-
-    <!-- Modal for Add user -->
+-->
     <div class="modal fade" id="myModalUser" role="dialog">
       <div class="modal-dialog">
 
-        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -273,31 +261,29 @@
           </div>
           <div class="modal-body">
             
-            <input  type="text" placeholder="name" [(ngModel)]="newUser.userName" />
+            <input  type="text" placeholder="firstname" [(ngModel)]="newUser.firstName" />
+            <input  type="text" placeholder="lastname" [(ngModel)]="newUser.lastName" />
             <input  type="text" placeholder="email" [(ngModel)]="newUser.email" /><br>
             <input  type="text" placeholder="phoneNumber" [(ngModel)]="newUser.phoneNumber" />
+            <input  type="text" placeholder="extension" [(ngModel)]="newUser.extension" />
             Enabled: <input type="checkbox" name="enabled" [(ngModel)]="newUser.enabled"><br>
             IsAdministrator: <input type="checkbox" name="enabled" [(ngModel)]="newUser.isAdministrator"><br>
-            <input #userPwd type="text" placeholder="pwd" value="{{password}}" />
-            <input #userRptPwd type="text" placeholder="repeteadPwd" value="{{password}}"/>
-            <button (click)="generate()">Generate</button>
-            <span>{{msg}}</span>
+            
+            
           
           </div>
           <div class="modal-footer">
-            <button id="buttonUserModal" type="button" class="btn btn-default"  (click)="addUser(userPwd.value, userRptPwd.value)">Add</button>
+            <button id="buttonUserModal" type="button" class="btn btn-default"  (click)="addUser()">Add</button>
           </div>
         </div>
 
       </div>
     </div>
 
-
-    <!-- Modal for Device detail -->
+<!--
      <div class="modal fade" id="modalDeviceDetail" role="dialog">
        <div class="modal-dialog">
 
-         <!-- Modal content-->
          <div class="modal-content">
            <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -345,3 +331,4 @@
 
        </div>
      </div>
+-->

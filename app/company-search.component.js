@@ -10,39 +10,64 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var company_service_1 = require('./company.service');
+var company_service_1 = require('./services/company.service');
+var error_service_1 = require('./services/error.service');
 var CompanySearchComponent = (function () {
-    function CompanySearchComponent(companyService, router) {
+    function CompanySearchComponent(companyService, router, errorService) {
         this.companyService = companyService;
         this.router = router;
+        this.errorService = errorService;
         this.companies = [];
     }
     // Push a search term into the observable stream.
     CompanySearchComponent.prototype.ngOnInit = function () {
-    };
-    CompanySearchComponent.prototype.listCompanies = function () {
         var _this = this;
+        $('#myModalCharge').modal('show');
         this.companyService.getCompanies()
             .subscribe(function (data) {
             _this.companies = data;
+            $('#myModalCharge').modal('hide');
         }, function (error) {
-            alert(error);
+            $('#myModalCharge').modal('hide');
+            _this.errorService.errorPopUp(error._body, error.status);
         });
     };
+    CompanySearchComponent.prototype.refresh = function () {
+        var _this = this;
+        $('#myModalCharge').modal('show');
+        this.companyService.getCompanies()
+            .subscribe(function (data) {
+            _this.companies = data;
+            $('#myModalCharge').modal('hide');
+        }, function (error) {
+            $('#myModalCharge').modal('hide');
+            _this.errorService.errorPopUp(error._body, error.status);
+        });
+    };
+    CompanySearchComponent.prototype.listAllCompanies = function () {
+        this.filter = "all";
+    };
+    CompanySearchComponent.prototype.openControlPanel = function (company) {
+        var win = window.open('https://dev-controlpanel.voverc.com/' + '#/access/signin?admin=true&us=' + company.username + '&pw=' + company.password1, '_blank');
+        win.focus();
+    };
     CompanySearchComponent.prototype.goToDetail = function (company) {
-        var link = ['/detail', company.id];
+        var link = ['/detail', company.companyId];
         this.router.navigate(link);
     };
-    CompanySearchComponent.prototype.deleteCompany = function (company, index) {
+    CompanySearchComponent.prototype.deleteCompany = function (company) {
         var _this = this;
-        if (this.companyService.delete(company)) {
-            this.companyService.getCompanies()
+        this.companyService.delete(company)
+            .subscribe(function (data) {
+            _this.companyService.getCompanies()
                 .subscribe(function (data) {
                 _this.companies = data;
             }, function (error) {
-                alert(error);
+                _this.errorService.errorPopUp(error._body, error.status);
             });
-        }
+        }, function (error) {
+            alert(error);
+        });
     };
     __decorate([
         core_1.Input(), 
@@ -55,7 +80,7 @@ var CompanySearchComponent = (function () {
             templateUrl: 'company-search.component.html',
             styleUrls: ['company-search.component.css']
         }), 
-        __metadata('design:paramtypes', [company_service_1.CompanyService, router_1.Router])
+        __metadata('design:paramtypes', [company_service_1.CompanyService, router_1.Router, error_service_1.ErrorService])
     ], CompanySearchComponent);
     return CompanySearchComponent;
 }());

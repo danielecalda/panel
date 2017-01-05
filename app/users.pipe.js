@@ -22,7 +22,7 @@ var FilterUsersPipe = (function () {
         else {
             for (var _i = 0, value_1 = value; _i < value_1.length; _i++) {
                 var user = value_1[_i];
-                if (user.userName.includes(filter)) {
+                if (user.firstName.includes(filter) || user.lastName.includes(filter)) {
                     users.push(user);
                 }
             }

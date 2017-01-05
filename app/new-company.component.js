@@ -9,43 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var company_service_1 = require('./company.service');
+var company_service_1 = require('./services/company.service');
 var router_1 = require('@angular/router');
-var admin_1 = require('./admin');
-var billing_details_1 = require('./billing-details');
-var company_1 = require('./company');
+var onboarding_1 = require('./onboarding');
+var error_service_1 = require('./services/error.service');
 var NewCompanyComponent = (function () {
-    function NewCompanyComponent(router, companyService) {
+    function NewCompanyComponent(router, companyService, errorService) {
         this.router = router;
         this.companyService = companyService;
+        this.errorService = errorService;
         this.cities = ['roma', 'padova', 'milano', 'napoli', 'firenze', 'torino', 'palermo', 'cagliari', 'venezia'];
         this.states = ['italy', 'france', 'england', 'spain', 'portugal', 'unites states'];
-        this.admin = new admin_1.Admin();
-        this.company = new company_1.Company();
-        this.billing = new billing_details_1.BillingDetails();
-        this.creationCompleted = false;
+        this.onBoarding = new onboarding_1.OnBoarding();
     }
     NewCompanyComponent.prototype.add = function () {
         var _this = this;
         var r = confirm('Sei sicuro di voler INSERIRE la nuova company?');
         if (r) {
-            if (this.admin.password !== this.repeatedPwd) {
+            if (this.onBoarding.password !== this.repeatedPwd) {
                 this.msg = 'le password non corrispondono';
             }
             else {
-                this.company.alphaname = this.company.name.replace(/ /g, "").toLowerCase();
-                this.company.admin = this.admin;
-                this.company.dids = [];
-                //default unlocked
-                this.company.locked = true;
-                this.company.billing = this.billing;
-                this.company.users = [];
-                this.companyService.create(this.company)
+                $('#myModalCharge').modal('show');
+                this.companyService.create(this.onBoarding)
                     .subscribe(function (data) {
+                    $('#myModalCharge').modal('hide');
                     console.log('yes');
-                    _this.creationCompleted = true;
+                    _this.router.navigate(['/search']);
                 }, function (error) {
-                    alert(error);
+                    $('#myModalCharge').modal('hide');
+                    _this.errorService.errorPopUp(error._body, error.status);
+                    console.log(error);
                 });
             }
         }
@@ -54,21 +48,13 @@ var NewCompanyComponent = (function () {
         this.router.navigateByUrl('/search');
     };
     NewCompanyComponent.prototype.generate = function () {
-        this.admin.password = this.companyService.randomPassword(8);
-        this.repeatedPwd = this.admin.password;
+        this.onBoarding.password = this.companyService.randomPassword(8);
+        this.repeatedPwd = this.onBoarding.password;
     };
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Object)
-    ], NewCompanyComponent.prototype, "admin", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], NewCompanyComponent.prototype, "company", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], NewCompanyComponent.prototype, "billing", void 0);
+        __metadata('design:type', onboarding_1.OnBoarding)
+    ], NewCompanyComponent.prototype, "onBoarding", void 0);
     NewCompanyComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
@@ -76,7 +62,7 @@ var NewCompanyComponent = (function () {
             templateUrl: 'new-company.component.html',
             styleUrls: ['new-company.component.css'],
         }), 
-        __metadata('design:paramtypes', [router_1.Router, company_service_1.CompanyService])
+        __metadata('design:paramtypes', [router_1.Router, company_service_1.CompanyService, error_service_1.ErrorService])
     ], NewCompanyComponent);
     return NewCompanyComponent;
 }());

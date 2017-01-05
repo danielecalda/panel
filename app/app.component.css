@@ -92,3 +92,9 @@ nav a.active {
   .modal-footer {
       background-color: #8FBC8F;
   }
+
+#myModalCharge{
+    width: 200px;
+  
+  margin: auto;
+}

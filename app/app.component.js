@@ -10,17 +10,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var auth_service_1 = require('./auth.service');
+var common_1 = require('@angular/common');
+var core_2 = require('angular2-cookie/core');
+var auth_service_1 = require('./services/auth.service');
+var account_service_1 = require('./services/account.service');
+var error_service_1 = require('./services/error.service');
 var AppComponent = (function () {
-    function AppComponent(authService, router) {
+    function AppComponent(authService, router, cookieService, currentAccount, location, errorService) {
         this.authService = authService;
         this.router = router;
+        this.cookieService = cookieService;
+        this.currentAccount = currentAccount;
+        this.location = location;
+        this.errorService = errorService;
         this.title = 'GodPanel';
     }
+    AppComponent.prototype.ngOnInit = function () {
+        if (this.cookieService.get("authToken") !== undefined) {
+            this.authService.isAuthenticated = true;
+            console.log(this.cookieService.get("authToken"));
+            this.currentAccount.current.token = this.cookieService.get("authToken");
+        }
+    };
+    AppComponent.prototype.removeCookie = function (key) {
+        return this.cookieService.remove(key);
+    };
     AppComponent.prototype.doLogin = function (username, password) {
         this.authService.getAuthToken(username, password);
     };
     AppComponent.prototype.doLogout = function () {
+        this.removeCookie("authToken");
         this.authService.isAuthenticated = false;
         window.location.href = '/';
     };
@@ -31,7 +50,7 @@ var AppComponent = (function () {
             templateUrl: 'app.component.html',
             styleUrls: ['app.component.css']
         }), 
-        __metadata('design:paramtypes', [auth_service_1.AuthService, router_1.Router])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, router_1.Router, core_2.CookieService, account_service_1.AccountService, common_1.Location, error_service_1.ErrorService])
     ], AppComponent);
     return AppComponent;
 }());

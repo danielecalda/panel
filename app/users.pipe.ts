@@ -17,7 +17,7 @@ export class FilterUsersPipe implements PipeTransform {
       else{
     
     for(let user of value){
-      if(user.userName.includes(filter)){
+      if(user.firstName.includes(filter) || user.lastName.includes(filter)){
     		    users.push(user);
         }
     }

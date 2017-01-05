@@ -1,20 +1,13 @@
 "use strict";
 var Company = (function () {
-    function Company(id, name, alphaname, didNumber, email, locked, dids, credit, subscription, admin, billing, users, couponCode, trialDays) {
-        this.id = id;
+    function Company(companyId, name, alphaName, dids, locked, address, pbxId) {
+        this.companyId = companyId;
         this.name = name;
-        this.alphaname = alphaname;
-        this.didNumber = didNumber;
-        this.email = email;
-        this.locked = locked;
+        this.alphaName = alphaName;
         this.dids = dids;
-        this.credit = credit;
-        this.subscription = subscription;
-        this.admin = admin;
-        this.billing = billing;
-        this.users = users;
-        this.couponCode = couponCode;
-        this.trialDays = trialDays;
+        this.locked = locked;
+        this.address = address;
+        this.pbxId = pbxId;
     }
     return Company;
 }());

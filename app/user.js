@@ -1,13 +1,14 @@
 "use strict";
 var User = (function () {
-    function User(id, userName, email, phoneNumber, password, enabled, isAdministrator) {
-        this.id = id;
-        this.userName = userName;
+    function User(userId, firstName, lastName, email, phoneNumber, enabled, isAdministrator, extension) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
         this.enabled = enabled;
         this.isAdministrator = isAdministrator;
+        this.extension = extension;
     }
     return User;
 }());

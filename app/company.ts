@@ -1,5 +1,4 @@
-import { BillingDetails }  from './billing-details';
-import { Admin }  from './admin';
+import { Address }  from './address';
 import { Did }  from './did';
 import { User }  from './user';
 
@@ -10,39 +9,27 @@ import { User }  from './user';
 export class Company{
 	
 
-	id: number;
+	   companyId: number;
     name: string;
-    alphaname: string;
-    didNumber: string;
-    email: string;
+    alphaName: string;
+    dids: string[];
     locked: boolean;
-    dids: Did[];
-    credit: number;
-    subscription: string;
-    admin: Admin;
-    billing: BillingDetails;
-    users: User[];
-    couponCode: string;
-    trialDays: number;
+    address: Address;
+    pbxId: number;
+    
+    
     
 
 
-      constructor(id?: number, name?: string,  alphaname?: string,  didNumber?: string, email?: string, locked?: boolean,  dids?: Did[], credit?: number, subscription?: string, admin?: Admin,  billing?: BillingDetails, users?: User[], couponCode?: string,
-      trialDays?: number){
-      		this.id = id;
+      constructor(companyId?: number, name?: string,  alphaName?: string,  dids?: string[],  locked?: boolean,  address?: Address, pbxId?: number){
+      		this.companyId = companyId;
         	this.name = name;
-          this.alphaname = alphaname;
-        	this.didNumber = didNumber;
-        	this.email = email;
-          this.locked = locked;
+          this.alphaName = alphaName;
         	this.dids = dids;
-          this.credit = credit;
-          this.subscription = subscription;
-          this.admin = admin;
-          this.billing = billing;
-          this.users = users;
-          this.couponCode = couponCode;
-          this.trialDays = trialDays;
+          this.locked = locked;
+          this.address = address;
+          this.pbxId = pbxId;
+          
           
       }
 

@@ -1,19 +1,17 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { CompanyService }  from './company.service';
+import { CompanyService }  from './services/company.service';
 import { Router } from '@angular/router';
 
 
 
 
-import { Admin } from './admin';
-import { BillingDetails } from './billing-details';
-import { Company } from './company';
-import { Device } from './device';
-import { Did } from './did';
-import { User } from './user';
+import { OnBoarding } from './onboarding';
+
+import { ErrorService }  from './services/error.service';
 
 
 
+declare var $: any;
 
 
 
@@ -34,57 +32,52 @@ export class NewCompanyComponent {
       states: string[] = ['italy', 'france', 'england', 'spain', 'portugal', 'unites states'];
       
       @Input()
-      admin = new Admin();
-      @Input()
-      company = new Company();
-      @Input()
-      billing = new BillingDetails();
+      onBoarding: OnBoarding = new OnBoarding();
       
 
-      creationCompleted: boolean = false;
       repeatedPwd: string;
       msg: string;
-      prefix: string;
-      countryCode: string;
 
       constructor(
           private router: Router,
-          private companyService: CompanyService) { }
+          private companyService: CompanyService, private errorService: ErrorService) { }
 
 
-
+          
       add(){
           var r = confirm('Sei sicuro di voler INSERIRE la nuova company?');
           if(r){
         
         
-            if(this.admin.password !== this.repeatedPwd){
+            if(this.onBoarding.password !== this.repeatedPwd){
               this.msg = 'le password non corrispondono';
             }
             else{
-                this.company.alphaname = this.company.name.replace(/ /g, "").toLowerCase();
-                this.company.admin = this.admin;
-                this.company.dids = [];
-                //default unlocked
-                this.company.locked = true;
                 
-                this.company.billing = this.billing;
-                this.company.users = [];
-                
-                this.companyService.create(this.company)
+               
+                $('#myModalCharge').modal('show');
+                this.companyService.create(this.onBoarding)
                   .subscribe(
+
                     data => {
+                    $('#myModalCharge').modal('hide');
+
                       console.log('yes');
-                      this.creationCompleted = true;
+                      this.router.navigate(['/search']);
+
                     },
                     error => {
-                      alert(error);
+                      $('#myModalCharge').modal('hide');
+                      this.errorService.errorPopUp(error._body, error.status);
+                      console.log(error);
+                      
                     });
                
                 }
               }
                
             }
+            
 
 
       goToSearch(): void {
@@ -92,8 +85,8 @@ export class NewCompanyComponent {
       }
 
       generate() {
-          this.admin.password = this.companyService.randomPassword(8);
-          this.repeatedPwd = this.admin.password;
+          this.onBoarding.password = this.companyService.randomPassword(8);
+          this.repeatedPwd = this.onBoarding.password;
       }
 
 

@@ -1,7 +1,9 @@
 "use strict";
 var Did = (function () {
-    function Did(number) {
+    function Did(id, number, label) {
+        this.id = id;
         this.number = number;
+        this.label = label;
     }
     return Did;
 }());

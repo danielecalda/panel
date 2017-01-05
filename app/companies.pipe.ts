@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Company } from './company'; 
+import { CompanySearch } from './company-search'; 
 import { Injectable }    from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
@@ -9,10 +9,10 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class FilterCompaniesPipe implements PipeTransform {
-  transform(value: Company[], filter: string): Company[]{
-    let companies: Company[] = [];
+  transform(value: CompanySearch[], filter: string): CompanySearch[]{
+    let companies: CompanySearch[] = [];
     for(let company of value){
-    if(company.name.includes(filter) || company.didNumber.includes(filter) || company.email.includes(filter) || company.alphaname.includes(filter) || this.checkDid(company, filter) || this.checkUserEmail(company, filter)){
+    if(company.name.includes(filter) ||  company.email.includes(filter) || company.alphaname.includes(filter) ||  this.checkDid(company, filter) ){
     		    companies.push(company);
 
     }
@@ -21,23 +21,29 @@ export class FilterCompaniesPipe implements PipeTransform {
         	companies = null;
         }
 
+    if(filter === 'all'){
+          companies = value;
+        }
+
 
 
     return companies;
   }
 
-
-  checkDid(company: Company, filter: string): boolean{
+  
+  checkDid(company: CompanySearch, filter: string): boolean{
     let exist = false;
     for(let did of company.dids){
-        if(did.number.includes(filter)){
+        if(did.includes(filter)){
             exist = true;
         }
        }
     return exist;
 
   }
+  
 
+  /*
   checkUserEmail(company: Company, filter: string): boolean{
     let exist = false;
     for(let user of company.users){
@@ -48,5 +54,6 @@ export class FilterCompaniesPipe implements PipeTransform {
     return exist;
 
   }
+  */
 
 }

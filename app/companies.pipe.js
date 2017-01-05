@@ -18,12 +18,15 @@ var FilterCompaniesPipe = (function () {
         var companies = [];
         for (var _i = 0, value_1 = value; _i < value_1.length; _i++) {
             var company = value_1[_i];
-            if (company.name.includes(filter) || company.didNumber.includes(filter) || company.email.includes(filter) || company.alphaname.includes(filter) || this.checkDid(company, filter) || this.checkUserEmail(company, filter)) {
+            if (company.name.includes(filter) || company.email.includes(filter) || company.alphaname.includes(filter) || this.checkDid(company, filter)) {
                 companies.push(company);
             }
         }
         if (filter === '') {
             companies = null;
+        }
+        if (filter === 'all') {
+            companies = value;
         }
         return companies;
     };
@@ -31,17 +34,7 @@ var FilterCompaniesPipe = (function () {
         var exist = false;
         for (var _i = 0, _a = company.dids; _i < _a.length; _i++) {
             var did = _a[_i];
-            if (did.number.includes(filter)) {
-                exist = true;
-            }
-        }
-        return exist;
-    };
-    FilterCompaniesPipe.prototype.checkUserEmail = function (company, filter) {
-        var exist = false;
-        for (var _i = 0, _a = company.users; _i < _a.length; _i++) {
-            var user = _a[_i];
-            if (user.email.includes(filter)) {
+            if (did.includes(filter)) {
                 exist = true;
             }
         }

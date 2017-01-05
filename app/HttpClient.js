@@ -10,14 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var auth_service_1 = require('./services/auth.service');
+var account_service_1 = require('./services/account.service');
 var HttpClient = (function () {
-    function HttpClient(http) {
+    function HttpClient(http, authService, currentAccount) {
         this.http = http;
+        this.authService = authService;
+        this.currentAccount = currentAccount;
     }
     HttpClient.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.currentAccount.current.token);
     };
-    HttpClient.prototype.get = function (url) {
+    HttpClient.prototype.get = function (url, options) {
         var headers = new http_1.Headers();
         this.createAuthorizationHeader(headers);
         console.log(headers.toJSON());
@@ -37,7 +42,7 @@ var HttpClient = (function () {
         var headers = new http_1.Headers();
         this.createAuthorizationHeader(headers);
         console.log(headers.toJSON());
-        return this.http.post(url, data, {
+        return this.http.put(url, data, {
             headers: headers
         });
     };
@@ -45,13 +50,13 @@ var HttpClient = (function () {
         var headers = new http_1.Headers();
         this.createAuthorizationHeader(headers);
         console.log(headers.toJSON());
-        return this.http.post(url, {
+        return this.http.delete(url, {
             headers: headers
         });
     };
     HttpClient = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, auth_service_1.AuthService, account_service_1.AccountService])
     ], HttpClient);
     return HttpClient;
 }());

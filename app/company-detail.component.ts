@@ -4,15 +4,19 @@ import { Location }                 from '@angular/common';
 import { Observable }        from 'rxjs/Observable';
 import { Subject }           from 'rxjs/Subject';
 
-import { CompanyService}  from './company.service';
-import { DeviceService}  from './device.service';
-import { UserService}  from './user.service';
+import { CompanyService}  from './services/company.service';
+import { DeviceService}  from './services/device.service';
+import { UserService}  from './services/user.service';
+import { DidService}  from './services/did.service';
 import { FilterUsersPipe} from './users.pipe';
 import { FilterDevicesPipe} from './devices.pipe';
+import { ErrorService }  from './services/error.service';
 
 
 
 import { Company } from './company';
+import { CompanySearch } from './company-search';
+
 import { Device } from './device';
 import { User } from './user';
 import { Did } from './did';
@@ -35,6 +39,8 @@ export class CompanyDetailComponent implements OnInit{
 
   @Input()
   company: Company;
+  @Input()
+  companies: CompanySearch[] = [];
   editMode: boolean = true;
   password: string;
   index: number;
@@ -43,6 +49,7 @@ export class CompanyDetailComponent implements OnInit{
   msg: string;
   typeDeviceFilter: string = 'all';
   username: string;
+  dids: Did[];
   devices: Device[];
   users: User[] = [] ;
   @Input()
@@ -62,8 +69,11 @@ export class CompanyDetailComponent implements OnInit{
     private companyService: CompanyService,
     private deviceService: DeviceService, 
     private userService: UserService,
+        private didService: DidService,
+
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private errorService: ErrorService
     ) {}
 
 
@@ -73,14 +83,33 @@ export class CompanyDetailComponent implements OnInit{
     this.route.params.forEach((params: Params) => {
       let id = +params['id'];
       this.companyService.getCompany(id)
-      .subscribe(data => {
+        .subscribe(data => {
             this.company = data;
-            this.users = data.users;
-      }, 
-      error => {
-        alert(error);
-      });
-      });
+            this.didService.getDids(data.pbxId)
+              .subscribe(
+                data => {
+                  this.dids = data;
+                },
+                error => {
+                  this.errorService.errorPopUp(error._body, error.status);
+                })
+            this.userService.getUsersForCompany(id)
+              .subscribe(
+                data => {
+                  this.users = data;
+
+                  },
+                error => {
+                  this.errorService.errorPopUp(error._body, error.status);
+                })
+          }, 
+            error => {
+            this.errorService.errorPopUp(error._body, error.status);
+          });
+      
+          });
+      
+
       }
 
       
@@ -97,7 +126,7 @@ export class CompanyDetailComponent implements OnInit{
 
         },
         error => {
-        alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
         });
     this.editMode = !this.editMode; 
   }
@@ -111,81 +140,78 @@ export class CompanyDetailComponent implements OnInit{
 
 
 
-
+  
   unlock(): void{
     var lockIt = false;
-    var r = confirm('Sei sicuro di voler SBLOCCARE la company con id ' + this.company.id + '?');
+    var r = confirm('Sei sicuro di voler SBLOCCARE la company con id ' + this.company.companyId + '?');
     if (r) {
         lockIt = true;
         }
     if (!lockIt)
             return;
-    if(this.company.locked === true){
-        this.company.locked = false;
-    }
     
-    this.companyService.update(this.company)
+    this.companyService.unlockAccount(this.company)
         .subscribe(
-          () => {
-              
+          data => {
+              this.company.locked = false;
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
       
     }
+    
 
+    
   lock(): void{
     var lockIt = false;
-    var r = confirm('Sei sicuro di voler BLOCCARE la company con id ' + this.company.id + '?');
+    var r = confirm('Sei sicuro di voler BLOCCARE la company con id ' + this.company.companyId + '?');
     if (r) {
         lockIt = true;
         }
     if (!lockIt)
             return;
-    if(this.company.locked === false){
-        this.company.locked = true;
-    }
     
-    this.companyService.update(this.company)
+    
+    this.companyService.lockAccount(this.company)
       .subscribe(
-          () => {
-              
+          data => {
+              this.company.locked = true;
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
     }
 
+    
 
-
-
-  addCredit(credit: string){
-    this.company.credit = this.company.credit + parseInt(credit);
+  /*
+  addCredit(balance: string){
+    this.company.balance = this.company.balance + parseInt(balance);
     this.companyService.update(this.company)
         .subscribe(
           () => {
             
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
     var form = <HTMLFormElement>document.getElementById("creditForm");
     form.reset();
     }
 
-
+    */
 
   addDid(didNumber: string){
-    let did = new Did(didNumber)
-    this.company.dids.push(did);
+    
+    this.company.dids.push(didNumber);
     this.companyService.update(this.company)
         .subscribe(
           () => {
             
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
     var form = <HTMLFormElement>document.getElementById("didForm");
     form.reset();
@@ -193,19 +219,7 @@ export class CompanyDetailComponent implements OnInit{
 
 
 
-
-  deleteMainDid(){
-    this.company.didNumber = null;
-    this.companyService.update(this.company)
-      .subscribe(
-          () => {
-            
-            },
-          error => {
-            alert(error);
-          });
-  }
-
+  
 
 
   deleteDid(index: number){
@@ -216,13 +230,27 @@ export class CompanyDetailComponent implements OnInit{
             
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
+  }
+
+  saveDid(did: Did){
+      this.didService.update(this.company.pbxId, did.id, did)
+        .subscribe(
+          () => {
+
+          }, 
+          error => {
+            this.errorService.errorPopUp(error._body, error.status);
+          })
+          this.editMode = !this.editMode; 
+
+
   }
 
 
 
-
+  /*
   resetPwd(pwd: string, repeteadPwd: string){
     var button = <HTMLButtonElement>document.getElementById("buttonPwdModal");
 
@@ -235,7 +263,7 @@ export class CompanyDetailComponent implements OnInit{
                 this.users = this.company.users;
             },
             error => {
-                alert(error);
+                this.errorService.errorPopUp(error._body, error.status);
             });
       var form = <HTMLFormElement>document.getElementById("myForm");
 
@@ -250,6 +278,7 @@ export class CompanyDetailComponent implements OnInit{
       this.msg = "le password non corrispondono";
       }
   }
+  */
 
 
   generate() {
@@ -261,7 +290,7 @@ export class CompanyDetailComponent implements OnInit{
   setAllUsers(){
         this.filter = '';
     }
-
+    /*
 
   setCurrentUser(user: User){
     this.currentUser = user;
@@ -283,60 +312,69 @@ export class CompanyDetailComponent implements OnInit{
                 data => { this.devices = data;
 
                   }, 
-              error => {alert(error)});
+              error => {
+              this.errorService.errorPopUp(error._body, error.status);
+              });
               },
               error => {
-                alert(error);
+                this.errorService.errorPopUp(error._body, error.status);
               });
           }
+          
 
   openControlPanel(){
+        var win = window.open('https://dev-controlpanel.voverc.com/' + '#/access/signin?admin=true&us=' + this.company.username + '&pw=' + this.company.password1, '_blank');
+        win.focus();
      }
+     */
 
 
-  addUser(password: string, repeatedPassword: string){
-      var button = <HTMLButtonElement>document.getElementById("buttonUserModal");
+  addUser(){
+    var button = <HTMLButtonElement>document.getElementById("buttonUserModal");
 
-    if(password === repeatedPassword){
-    
-    this.newUser.password = password;
-    this.company.users.push(this.newUser);
-    this.companyService.update(this.company)
+   
+   
+    this.userService.create(this.company.companyId, this.newUser)
         .subscribe(
           () => {
-            this.users = this.company.users;
+            this.userService.getUsersForCompany(this.company.companyId)
+              .subscribe(
+                data => {
+                  this.users = data;
+                },
+                error =>{
+                  this.errorService.errorPopUp(error._body, error.status);
+                })
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
           });
     button.setAttribute("data-dismiss", "modal");
 
-    }
-    else{
-          button.removeAttribute("data-dismiss");
-
-      this.msg = 'le password non corrispondono';
-      
-    }
-    this.password = null;
+    
+    
     this.newUser = new User();
   }
-
+  
  
   
   searchDevicesForUsername(user: User){
 
-    this.deviceService.getDevices(user).subscribe(
+    this.deviceService.getDevices(this.company.companyId, user.userId).subscribe(
         data => { 
-          this.devices = data;
         }, 
         error => {
-          alert(error)
+          this.errorService.errorPopUp(error._body, error.status);
           });
+
+                    this.devices = this.users[0].devices;
+
 
     this.currentUser = user;
     
   }
+
+  /*
 
   setCurrentDevice(index: number){
       this.index = index;
@@ -362,21 +400,21 @@ export class CompanyDetailComponent implements OnInit{
           },
           error => {
             this.searchDevicesForUsername(this.currentUser);
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
             });
   }
 
 
 
    
+  */
 
-
-  deleteUser(index: number){
+  deleteUser(user: User){
 
       
 
-      var delIt = false;
-    var r = confirm('Sei sicuro di voler eliminare lo user con id ' +  this.users[index].id + '?');
+    var delIt = false;
+    var r = confirm('Sei sicuro di voler eliminare lo user con id ' +  user.userId + '?');
       if (r) {
         var r2 = confirm('SEI PROPRIO PROPRIO SICURO???');
         if (r2) {
@@ -386,21 +424,28 @@ export class CompanyDetailComponent implements OnInit{
     if (!delIt){
     return;
     }
-    if(this.users[index].userName === this.currentUser.userName){
-          this.devices = null;
-      }
-      this.company.users.splice(index, 1);
-      this.companyService.update(this.company)
+    
+      
+    this.userService.delete(this.company, user)
         .subscribe(
           () => {
-            this.users = this.company.users;
+              this.userService.getUsersForCompany(this.company.companyId)
+                .subscribe(
+                  data => {
+                    this.users = data;
+                  },
+                  error => {
+                    this.errorService.errorPopUp(error._body, error.status);
+                    console.log(error._body);
+                  })
             },
           error => {
-            alert(error);
+            this.errorService.errorPopUp(error._body, error.status);
+            console.log(error._body);
           });
       }
 
-
+    
      
 
 
