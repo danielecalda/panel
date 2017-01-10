@@ -1,0 +1,23 @@
+
+button {
+  margin-top: 20px;
+  font-family: Arial;
+  background-color: #778899;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer; cursor: hand;
+}
+button:hover {
+  background-color: #B0C4DE;
+}
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+
+
+.modal-body{  
+  width: 600px;
+}

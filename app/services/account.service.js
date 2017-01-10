@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 /**
  * Created by manuel on 11/15/16.
  */
-var account_1 = require('../account');
+var account_1 = require('../model/account');
 var core_1 = require('@angular/core');
 var AccountService = (function () {
     function AccountService() {

@@ -1,0 +1,113 @@
+<form (ngSubmit)="add()">
+	<div class="well">
+	<div class="header">
+    	<h3>Company Details</h3>
+	</div>
+    <div class="form-group row">
+  		<label for="" class="col-xs-1 col-form-label">Company Name:</label>
+  			<div class="col-xs-5">
+    			<input required  class="form-control" type="text" placeholder="name" [(ngModel)]="onBoarding.company_name" name="company_name" />
+    		</div>
+	</div>
+	<div class="form-group row">
+	<label for="" class="col-xs-1 col-form-label">Address:</label>
+  	<div class="col-xs-3">
+    		<input  required  class="form-control" type="text" placeholder="address" [(ngModel)]="onBoarding.address" name="address" />
+  	</div>
+  	<label for="" class="col-xs-1 col-form-label">Province:</label>
+  	<div class="col-xs-2">
+    	<select required  class="form-control" type="text" placeholder="city" [(ngModel)]="onBoarding.city" name="city">
+          <option [value]="city" *ngFor="let city of cities" >{{city}}</option>
+    	</select>
+  	</div>
+  	<label for="" class="col-xs-1 col-form-label">ZipCode:</label>
+  		<div class="col-xs-2">
+    	<input  required  class="form-control" type="text" placeholder="zip code" [(ngModel)]="onBoarding.zip" name="zip" />
+  	</div>
+	</div>
+	<div class="form-group row">
+
+  	<label for="" class="col-xs-1 col-form-label">State:</label>
+  		<div class="col-xs-2">
+    		<select required class="form-control" type="text"  [(ngModel)]="onBoarding.state" name="state" >
+          		<option [value]="state" *ngFor="let state of states" >{{state}}</option>
+    		</select>
+  		</div>
+  	<label for="" class="col-xs-1 col-form-label">Tax ID:</label>
+  		<div class="col-xs-2">
+    		<input required   class="form-control" type="text" placeholder="tax id" [(ngModel)]="onBoarding.tax_id" name="tax_id" />
+  		</div>
+	</div>
+	</div>
+	<div class="well">
+  <div class="header">
+    <h3>User Administration Details</h3>
+
+  </div>
+
+<div class="form-group row">
+  <label for="" class="col-xs-1 col-form-label">FirstName:</label>
+  <div class="col-xs-3">
+    <input required  class="form-control" type="text"  placeholder="FirstName" [(ngModel)]="onBoarding.first_name" name="first_name" />
+  </div>
+  <label for="" class="col-xs-1 col-form-label">LastName:</label>
+  <div class="col-xs-3">
+    <input required  class="form-control" type="text"  placeholder="LastName" [(ngModel)]="onBoarding.last_name" name="last_name" />
+  </div>
+</div>
+<div class="form-group row">
+  <label for="" class="col-xs-1 col-form-label">Email:</label>
+  <div class="col-xs-2">
+    <input  required  class="form-control" type="string"  placeholder="email" [(ngModel)]="onBoarding.email" name="email" />
+  </div>
+  <label for="" class="col-xs-2 col-form-label">PhoneNumber:</label>
+  <div class="col-xs-2">
+    <input  required  class="form-control" type="text" placeholder="mobile number" [(ngModel)]="onBoarding.mobile_number" name="mobile_number" />
+  </div>
+</div>
+<div class="form-group row">
+  <label for="" class="col-xs-1 col-form-label">Password:</label>
+  <div class="col-xs-2">
+    <input required  class="form-control" type="password" value="" placeholder="password"  [(ngModel)]="onBoarding.password" name="password" />
+  </div>
+  <label  for="" class="col-xs-2 col-form-label">RepeatPassword:</label>
+  <div class="col-xs-2">
+    <input required   class="form-control" type="password" value="" placeholder="repeteadPwd" [(ngModel)]="repeatedPwd" name="RepeatPassword" />
+  </div>
+  <button  type="button" name="button" (click)="generate()">Generate</button>
+</div>
+<span>{{msg}}</span>
+</div>
+
+<div class="well">
+  <div class="header">
+    <h3>Additional Info</h3>
+
+  </div>
+  <label for="" class="col-xs-1 col-form-label">Prefix:</label>
+  <div class="col-xs-2">
+    <input   required class="form-control" type="text"  placeholder="Prefix" [(ngModel)]="prefix" name="prefix" />
+  </div>
+
+<div class="form-group row">
+  <label for="" class="col-xs-1 col-form-label">Initial Balance:</label>
+  <div class="col-xs-3">
+    <input   required class="form-control" type="number" placeholder="balance" [(ngModel)]="onBoarding.balance" name="balance" />
+  </div>
+  
+  <label for="" class="col-xs-1 col-form-label">Trial Days:</label>
+  <div class="col-xs-3">
+      
+      <input required class="form-control" type="number" placeholder="trial days" [(ngModel)]="onBoarding.trial_days" name="trial_days" />
+  </div>
+
+
+
+</div>
+
+</div>
+  	<button type="submit">Add</button>
+</form>
+
+
+

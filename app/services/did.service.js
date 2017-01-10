@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 require('rxjs/add/operator/toPromise');
-var httpClient_1 = require('../httpClient');
+var httpClient_1 = require('./httpClient');
 var DidService = (function () {
     function DidService(http) {
         this.http = http;

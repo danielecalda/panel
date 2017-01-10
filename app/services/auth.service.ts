@@ -3,6 +3,8 @@ import { Http, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
 
 
+declare var $: any;
+
 import { AccountService } from './account.service';
 import 'rxjs/add/operator/toPromise';
 
@@ -16,6 +18,8 @@ export class AuthService {
     public headers = new Headers({'Content-Type': 'application/json'});
 
     public isAuthenticated = false;
+
+    rememberMe: boolean = true;
     
 
     constructor(private http: Http,
@@ -34,11 +38,14 @@ export class AuthService {
                 .map(res => res.json())
                 .subscribe(
                     data => {
+                        $('#myModalCharge').modal('hide');
                         this.currentAccount.current.setToken(data.access_token);
+                        this.isAuthenticated = true; 
+                        if(this.rememberMe){
                         var expireDate = new Date(new Date().getTime() + (1000 * data.expires_in));
                         this.cookieService.put("authToken", data.access_token, {expires: expireDate});
-
-                        this.isAuthenticated = true; 
+                        }
+                        
                         
                         },
                     error => {

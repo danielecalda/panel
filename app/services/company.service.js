@@ -10,57 +10,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
-var shared_service_1 = require('./shared.service');
 require('rxjs/add/operator/toPromise');
-var httpClient_1 = require('../httpClient');
+var httpClient_1 = require('./httpClient');
 var CompanyService = (function () {
-    function CompanyService(http, location, ss) {
+    function CompanyService(http, location) {
         this.http = http;
         this.location = location;
-        this.ss = ss;
     }
     CompanyService.prototype.ngOnInit = function () { };
     CompanyService.prototype.getCompany = function (id) {
         return this.http.get("https://devapi.voverc.com/api/v2/companies/" + id)
-            .map(function (response) { return response.json(); });
+            .map(this.extractData);
     };
     CompanyService.prototype.getCompanies = function () {
         return this.http.get("https://devapi.voverc.com/api/company")
-            .map(function (response) { return response.json(); });
+            .map(this.extractData);
     };
     CompanyService.prototype.update = function (company) {
         var url = "https://devapi.voverc.com/api/company/" + company.companyId;
         return this.http
             .put(url, JSON.stringify(company))
-            .map(function (response) { return response.json(); });
+            .map(this.extractData);
     };
     CompanyService.prototype.delete = function (company) {
-        var delIt = false;
-        var r = confirm('Sei sicuro di voler eliminare la company con id ' + company.companyId + '?');
-        if (r) {
-            console.log('true');
-            var r2 = confirm('SEI PROPRIO PROPRIO SICURO???');
-            if (r2) {
-                console.log('true');
-                delIt = true;
-            }
-        }
-        if (!delIt) {
-            return;
-        }
-        console.log('deleted');
-        var url = "https://devapi.voverc.com/api/company/" + company.companyId;
+        var url = "https://devapi.voverc.com/api/v2/companies/" + company.companyId;
         return this.http.delete(url)
-            .map(function (response) { return response.json(); });
+            .map(this.extractData);
     };
     CompanyService.prototype.create = function (onBoarding) {
         console.log(JSON.stringify(onBoarding));
         return this.http
             .post("https://devapi.voverc.com/api/v2/onboarding/trial", JSON.stringify(onBoarding))
-            .map(function (res) { return res.json(); });
+            .map(this.extractData);
+    };
+    CompanyService.prototype.extractData = function (res) {
+        var body;
+        // check if empty, before call json
+        if (res.text()) {
+            body = res.json();
+        }
+        return body || {};
     };
     CompanyService.prototype.randomPassword = function (length) {
-        var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+        var chars = "abcdefghijklmnopqrstuvwxyz!@#$%&()ABCDEFGHIJKLMNOP1234567890";
         var pass = "";
         for (var x = 0; x < length; x++) {
             var i = Math.floor(Math.random() * chars.length);
@@ -78,7 +70,7 @@ var CompanyService = (function () {
     };
     CompanyService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [httpClient_1.HttpClient, common_1.Location, shared_service_1.SharedService])
+        __metadata('design:paramtypes', [httpClient_1.HttpClient, common_1.Location])
     ], CompanyService);
     return CompanyService;
 }());

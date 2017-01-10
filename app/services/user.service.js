@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/toPromise');
-var httpClient_1 = require('../httpClient');
+var httpClient_1 = require('./httpClient');
 var UserService = (function () {
     function UserService(http) {
         this.http = http;
@@ -22,10 +22,6 @@ var UserService = (function () {
         headers.append('companyId', String(id));
         return this.http.get("https://devapi.voverc.com/api/v2/companies/" + id + "/users")
             .map(function (response) { return response.json(); });
-    };
-    UserService.prototype.getUsersForName = function (name) {
-        return this.http.get("app/user?userName=" + name)
-            .map(function (response) { return response.json().data; });
     };
     UserService.prototype.create = function (companyId, user) {
         return this.http

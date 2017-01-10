@@ -4,11 +4,11 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Observable }   from 'rxjs';
 
-import { User } from '../user';
-import { Company } from '../company';
-import { Did }  from '../did';
+import { User } from '../model/user';
+import { Company } from '../model/company';
+import { Did }  from '../model/did';
 
-import { HttpClient }   from '../httpClient';
+import { HttpClient }   from './httpClient';
 
 
 

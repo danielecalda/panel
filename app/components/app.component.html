@@ -1,0 +1,157 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img src="/img/logo.png" alt=""></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+
+      <ul class="nav navbar-nav navbar-right">
+       
+      <li class="dropdown dropdown-user"><a class="dropdown-toggle" data-toggle="dropdown">  <span>Admin</span>
+
+                    <i class="caret"></i> </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    
+                    <li><a *ngIf="!this.authService.isAuthenticated" data-toggle="modal" href="#myModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li><a *ngIf="this.authService.isAuthenticated"  (click)="doLogout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+
+                </ul>
+
+            </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid text-center" >
+  <div class="row content">
+    <div  *ngIf="this.authService.isAuthenticated" class="col-sm-2 sidenav" >
+    <nav>
+      <span ><a  routerLink="/search" routerLinkActive="active">Company Search</a></span><br>
+      <span ><a   routerLink="/new" routerLinkActive="active">New Company</a></span>
+
+</nav>
+
+
+    </div>
+    <div *ngIf="authService.isAuthenticated"   class="col-sm-10 text-left">
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Login</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+              <input #usrname type="text" class="form-control"  placeholder="Enter email"   >
+            </div>
+            <div class="form-group">
+              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+              <input #psw type="password" class="form-control"  placeholder="Enter password"  >
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="" [(ngModel)]="this.authService.rememberMe" name="rememberMe">Remember me</label>
+            </div>
+            <button type="submit" class="btn btn-default btn-success btn-block" data-dismiss="modal" (click)="doLogin(usrname.value, psw.value)"><span class="glyphicon glyphicon-off"></span> Login</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <p>Not a member? <a href="#">Sign Up</a></p>
+          <p>Forgot <a href="#">Password?</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalPop" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Login</h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+          <p>Not a member? <a href="#">Sign Up</a></p>
+          <p>Forgot <a href="#">Password?</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalCharge" role="dialog">
+    
+
+      <!-- Modal content-->
+      
+        
+        <div class="modal-body">
+          <img src="/img/ajax-loader.gif" alt="">
+        </div>
+        
+     
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalError" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            Errore
+        </div>
+        <div class="modal-body">
+        <label>Status:</label> {{this.errorService.errorStatus}}<br>
+        <label>Body:</label> {{this.errorService.errorBody}}
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+
+
+<footer class="container-fluid text-center">
+  <p>Voverc Srl</p>
+</footer>

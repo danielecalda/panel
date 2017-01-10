@@ -4,10 +4,10 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Observable }   from 'rxjs';
 
-import { User } from '../user';
-import { Company } from '../company';
+import { User } from '../model/user';
+import { Company } from '../model/company';
 
-import { HttpClient }   from '../httpClient';
+import { HttpClient }   from './httpClient';
 
 
 
@@ -32,10 +32,7 @@ export class UserService{
 	}
 
 
-  getUsersForName(name: string): Observable<User[]>{
-    return this.http.get(`app/user?userName=${name}`)
-          .map(response => response.json().data as User[])
-  }
+  
 
 
 
@@ -51,7 +48,7 @@ export class UserService{
   		return this.http
     		.put(url, JSON.stringify(user))
     		.map(() => user)
-}
+  }
 
   delete(company: Company, user: User){
     

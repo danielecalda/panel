@@ -23,6 +23,7 @@ var AuthService = (function () {
         this.tokenHeaders = new http_1.Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.isAuthenticated = false;
+        this.rememberMe = true;
     }
     AuthService.prototype.getAuthToken = function (username, password) {
         var _this = this;
@@ -31,10 +32,13 @@ var AuthService = (function () {
             .post('https://devapi.voverc.com/api/token', postData, { headers: this.tokenHeaders })
             .map(function (res) { return res.json(); })
             .subscribe(function (data) {
+            $('#myModalCharge').modal('hide');
             _this.currentAccount.current.setToken(data.access_token);
-            var expireDate = new Date(new Date().getTime() + (1000 * data.expires_in));
-            _this.cookieService.put("authToken", data.access_token, { expires: expireDate });
             _this.isAuthenticated = true;
+            if (_this.rememberMe) {
+                var expireDate = new Date(new Date().getTime() + (1000 * data.expires_in));
+                _this.cookieService.put("authToken", data.access_token, { expires: expireDate });
+            }
         }, function (error) {
             alert("bad username or password");
         });
